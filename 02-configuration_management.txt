@@ -1,5 +1,5 @@
 ** Usually, a computer needs Configuration where it got the instruction to perform some tasks.
-** On Linux, Configuration is stored in many diferent files (readable text format).
+** On Linux, Configuration is stored in many different files (readable text format).
 ** On Windows, Configuration is mainly stored in the registry.
 ** Hardware appliance also make a use of Configuration file.
 
