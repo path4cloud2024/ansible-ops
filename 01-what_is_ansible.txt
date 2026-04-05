@@ -27,3 +27,18 @@ Uses SSH (no agent required ✅)
 ✅ Easy to learn (uses simple YAML)
 ✅ Powerful (used in real DevOps environments)
 ✅ Idempotent (won’t repeat unnecessary changes)
+
+👉 Types of Ansible:
+    1) ansible-core (comes by default with RHEL9): includes CLI tools and basic modules
+    2) Community Ansible: open source but with limited support, built on top of ansible-core, comes with community supported collections with more plugins & modules.
+    3) AAP (Ansible Automation Platform): is an enterpise licence based solution. It comes with:
+        - Automation Controller (web user interface)
+        - Automation Hub (verfied content collections)
+        - Ansible Navigator
+        - Execution Environment(Container Image used by Ansible Navigator)
+    4) Ansible Automation Controller (formerly known as Ansible Tower) and AWX is the open source upstream for this project
+    5) Ansible LightSpeed: AI-powered assistant for writing playbooks and it is integrated with IBM Watson which is not an open source
+    6) EDA (Event Driven Ansible): Enables automation based on Alerts, Webhooks, Monitoring tools
+
+
+

@@ -28,24 +28,47 @@ User to connect with managed hosts:
 ###################################################################################
 
 
-** A quick setup, I have created a custom file for ansibleuser for sudo privilege and ansible.cfg file, present in github repo, clone the same repo and follow below steps:
-1) git clone https://github.com/path4cloud2024/ansible-ops.git
-2) creating a new user on ansible control node:
+** My LAB Setup
+1) login with root and then create a new user on ansible control node:
     # useradd ansibleuser
+    # passwd ansibleuser (this password needs when we run playbook on localhost)
     # su - ansibleuser (switching to a new user)
     # ssh-keygen (creating a SSH KEY)
-    # copy the "ansibleuser" file from cloned repo to /etc/sudoers.d/
+    # cp id_rsa.pub authorized_keys (copy the public key for ansibleuser to make the password less connection at localhost)
+2) git clone https://github.com/path4cloud2024/ansible-ops.git
+    # copy the "ansibleuser" file from cloned repo to /etc/sudoers.d/ (with root)
     Note: If you have another user then replace the "ansibleuser" with your username
     # sed -i "s|ansibleuser|<new_user>|g" ansibleuser
 3) copy and rename the anisble.cfg.bkp file to ansibleuser home directory as ansible.cfg (hidden file)
     # cp ansible.cfg.bkp /home/ansibleuser/.ansible.cfg
+    (change the remote_user, if you have created an another user in step2)
 4) copy the inventory file to user home directory and update as per your setup.
     # cp inventory /home/ansibleuser/inventory
 5) Now, run the playbook ansibleuser.yaml from ansibleuser home directory. This playbook prompt for user,provide the user as "ansibleuser" (OR, if you have created another user then provide the same username)
-    Note: If you have another user which has already present in target node and has sudo privilege then at line num 20, replace the "path4cloud" user to an user which is already present user.
-    # ansible-playbook ansible-ops/ansibleuser.yaml -k -K (will ask the password twice for user mentioned in line 20)
+    Note: If you have another user which is already present in target node and have sudo privilege then at line num 20, replace the "path4cloud" user to an user which is already present user.
+    # ansible-playbook ansible-ops/ansibleuser.yaml -k -K (will ask the password twice)
 6) check the new user is working with privilege access or try to ping as adhoc command:
-    # ansible docker -m ping 
+    # ansible docker -m ping
+    # anisble localhost -m ping
     # ansible docker -a "mkdir /root/testdir" (here docker is my managed host and already mentioned in inventory file, you can change it to your name)
 
+
+#######################################################################################################
+ANOTHER METHOD
+** A Quick Setup using ansible only, if you have a user present on target node with sudo privilege
+- On master node:
+    # ansible -i inventory all -u <user_name> -k -b -K -m command -a "useradd <user_name>"
+    (here -u username is which is already present, and user with useradd command is the user which you want to create on target node)
+
+    # ansible -i inventory <linux_host> -u <user_name> -k -b -K -m shell -a "echo <password> | passwd --stdin <user_name>
+    (here, we are setting the password for an user, created in step1 on linux host)
+    (we used, shell module, since this standard redirecting won't work with 'command' module)
+    (we ran only for Linux Hosts since for Ubuntu, it is a different command to set the password)
+
+    # ansible -i inventory <ubuntu_host> -u <user_name> -k -b -K -m shell -a "echo <user_name>:<password> | chpasswd"
+
+    # ansible -i inventory all -u <user_name> -k -b -K -m copy -a 'content="<user_name> ALL=(ALL) NOPASSWD: ALL" dest=/etc/sudoers.d/<user_name>
+    (here, we are adding the new user to sudo privilege using copy module)
+
+    
 

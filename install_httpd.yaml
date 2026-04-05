@@ -1,0 +1,17 @@
+---
+- name: Install and configure httpd
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install httpd
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+
+    - name: Open HTTP port in SELinux
+      community.general.seport:
+        ports: 80
+        proto: tcp
+        setype: http_port_t
+        state: present
