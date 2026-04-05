@@ -1,0 +1,13 @@
+[defaults]
+inventory = /home/ansibleuser/inventory
+host_key_checking = false
+remote_user = ansibleuser
+
+[privilege_escalation]
+become = true
+become_user = root
+become_method = sudo
+become_ask_pass = false
+
+[ssh_connection]
+private_key_file = /home/ansibleuser/.ssh/id_rsa

@@ -1,0 +1,54 @@
+---
+- name: reading public key for {{ masteruser }}
+  hosts: localhost
+  vars_prompt:
+    name: masteruser
+    prompt: "Enter the user name created at master "
+    private: no
+  tasks:
+    - name: registering pubkey to a variable
+      slurp:
+        src: "/home/{{ masteruser }}/.ssh/id_rsa.pub"
+      register: pubkey
+
+    - name: Set public key as global fact
+      set_fact:
+        master_pubkey: "{{ pubkey.content | b64decode }}"
+        
+- name: Creating a common user and its key
+  hosts: centos8
+  remote_user: osboxes
+  become: true
+  become_method: sudo
+  gather_facts: true
+  vars_prompt:
+    name: username
+    prompt: "Enter the same user name as master "
+    private: no
+
+  tasks:
+    - name: creating users on all managed nodes
+      user:
+        name: "{{ username }}"
+        state: present
+
+    - name: Ensuring the .ssh directory exists for new user on remote host
+      file:
+        path: "/home/{{ username }}/.ssh"
+        state: directory
+        mode: '0700'
+        owner: "{{ username }}"
+        group: "{{ username }}"
+
+    - name: Add public key to authorized_keys
+      copy:
+        content: "{{ hostvars['localhost'].master_pubkey }}"
+        dest: "/home/{{ username }}/.ssh/authorized_keys"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '0600'
+
+    - name: copying sudoers file
+      copy:
+        src: ansibleuser
+        dest: "/etc/sudoers.d/"

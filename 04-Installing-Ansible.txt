@@ -20,9 +20,8 @@
     * OpenSCAP Security Profile Configuration
 - Ansible Automation Platform Subscription (comes with Ansible Controller)
 
-
 ###############################################################################
-✅ Install Ansible-Core 
+✅ Install Ansible-Core on REDHAT LINUX
     ** If server image is used from console.redhat.com and registered to CDN network then we do have ansible-core installed at part of RHEL subscription with system (but we have limited support)
 
     ** Server should be registered to some upstream network, In this LAB, our server is registered to console.redhat.com and using "Red Hat Developer Subscription for Individuals" Subscription
@@ -36,6 +35,7 @@
     check the repositories:
     # dnf repolist all
     (if ansible repo is not enabled then we can enable as:)
+    # subscription-manager repos --enable=rhel-9-for-x86_64-appstream-rpms
     # subscription-manager repos --enable=ansible-automation-platform-2.6-for-rhel-9-x86_64-rpms
     (here, we are enabling 2.6 version, you can choose as per your requirement)
     # yum install ansible-core -y
@@ -69,26 +69,62 @@
 
 [root@rhel-9 ~]# yum list ansible-core
 Installed Packages
-ansible-core.x86_64   1:2.14.18-1.el9     @System
+ansible-core.noarch   1:2.16.17-1.el9ap   @ansible-automation-platform-2.6-for-rhel-9-x86_64-rpms
 Available Packages    
-ansible-core.noarch   1:2.16.17-1.el9ap   ansible-automation-platform-2.6-for-rhel-9-x86_64-rpms
+ansible-core.x86_64   1:2.14.18-1.el9     rhel-9-for-x86_64-appstream-rpms
 
 [root@rhel-9 ~]# yum list ansible --disablerepo="*" --enablerepo="EPEL-9-Everything-x86_64"
 Available Packages
 ansible.noarch        1:7.7.0-1.el9       EPEL-9-Everything-x86_64
 #############################################################################################
 
-    [path4cloud@rhel-9 ~]$ ansible --version
-    ansible [core 2.14.18]
+    [root@rhel-9 ~]# ansible --version
+    ansible [core 2.16.17]
         config file = /etc/ansible/ansible.cfg
+        configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+        ansible python module location = /usr/lib/python3.12/site-packages/ansible
+        ansible collection location = /root/.ansible/collections:/usr/share/ansible/collections
+        executable location = /bin/ansible
+        python version = 3.12.12 (main, Mar 27 2026, 00:00:00) [GCC 11.5.0 20240719 (Red Hat 11.5.0-11)] (/usr/bin/python3.12)
+        jinja version = 3.1.6
+        libyaml = True
+
+#############################################################################################
+#############################################################################################
+✅ Install Ansible-Core on UBUNTU
+    $ sudo apt-get install ansible-core
+    path4cloud@docker:~$ ansible --version
+    ansible [core 2.16.3]
+        config file = None
         configured module search path = ['/home/path4cloud/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
-        ansible python module location = /usr/lib/python3.9/site-packages/ansible
+        ansible python module location = /usr/lib/python3/dist-packages/ansible
         ansible collection location = /home/path4cloud/.ansible/collections:/usr/share/ansible/collections
         executable location = /usr/bin/ansible
-        python version = 3.9.25 (main, Jan 14 2026, 00:00:00) [GCC 11.5.0 20240719 (Red Hat 11.5.0-11)] (/usr/bin/python3)
+        python version = 3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0] (/usr/bin/python3)
         jinja version = 3.1.2
         libyaml = True
 
+
+#############################################################################################
+#############################################################################################
+✅ Install Ansible with Python pip
+    pip will install the very latest version of Ansible from distribution repositories and you might find the additional feature of ansible which does not get stablized and need more testing.
+
+    For Fedora/CentOS/Redhat
+    # sudo dnf install python3-pip
+    # pip3 install ansible --user
+    # ansible --version
+    ansible [core 2.15.13]
+        config file = /etc/ansible/ansible.cfg
+        configured module search path = ['/home/path4cloud/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+        ansible python module location = /home/path4cloud/.local/lib/python3.9/site-packages/ansible
+        ansible collection location = /home/path4cloud/.ansible/collections:/usr/share/ansible/collections
+        executable location = /home/path4cloud/.local/bin/ansible
+        python version = 3.9.25 (main, Jan 14 2026, 00:00:00) [GCC 11.5.0 20240719 (Red Hat 11.5.0-11)] (/usr/bin/python3)
+        jinja version = 3.1.6
+        libyaml = True
+#############################################################################################
+#############################################################################################
 
 🔹 How Community Contribution Works:
     You can create your own module and maintain it on github or any other portal and publish that module. Now, ask comunnity (by filling forms) to test the modules in their environment and give some feedback, we can also ask RedHat to check our modules and if Redhat likes that then they will test it Redhat environment and then if it gets approved then it will get involved/shipped or made available on ansible automation hub portal for future version of ansible.

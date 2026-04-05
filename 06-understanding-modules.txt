@@ -93,3 +93,24 @@ Ansible ships with hundreds of built-in modules.
     Better readability. You instantly know: 
         where module comes from
         what it belongs to
+
+#######################################################################################
+
+[root@rhel-9 ~]# ansible-doc -l
+ansible.builtin.apt                    Manages apt-packages
+ansible.builtin.apt_key                Add or remove an apt key
+ansible.builtin.apt_repository         Add and remove APT repositories
+ansible.builtin.assemble               Assemble configuration files from fragments
+ansible.builtin.assert                 Asserts given expressions are true
+ansible.builtin.async_status           Obtain status of asynchronous task
+ansible.builtin.blockinfile            Insert/update/remove a text block surrounded by marker lines
+
+
+To check the manuals of a particluar module:
+[root@rhel-9 ~]# ansible-doc ansible.builtin.apt
+> ANSIBLE.BUILTIN.APT    (/usr/lib/python3.12/site-packages/ansible/modules/apt.py)
+
+        Manages `apt' packages (such as for Debian/Ubuntu).
+
+ADDED IN: version 0.0.2 of ansible-core
+................
