@@ -22,7 +22,7 @@ server1.path4cloud.com
 [cloud]
 servera.path4cloud.com
 
-[all:children
+[all:children]
 linux
 webservers
 dbservers
