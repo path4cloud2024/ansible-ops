@@ -16,8 +16,8 @@
         master_pubkey: "{{ pubkey.content | b64decode }}"
         
 - name: Creating a common user and its key
-  hosts: centos8
-  remote_user: osboxes
+  hosts: target_node
+  remote_user: path4cloud
   become: true
   become_method: sudo
   gather_facts: true
