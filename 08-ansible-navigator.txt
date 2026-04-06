@@ -10,8 +10,6 @@
 
 ✅ Login to registry as:
     # podman login -u <usernam> -p <password> <registry_url>
-    use - registry.redhat.io
-
 
 ✅ To install the ansible navigator
     # subscription-manager repos --enable=ansible-automation-platform-2.6-for-rhel-9-x86_64-rpms
@@ -36,7 +34,7 @@ Login Succeeded!
 
 # ansible-navigator images
     - We have ansible-navigator.yaml file, similar as ansible.cfg where we have paramater defined for ansible-navigator
-    - For this version, ee-supported-rhel8 is the default image and if policy is set to 'always' then everytime it will pull the images from registry, we can set to never or missing in ansible-navigator.yaml file
+    - For this version, ee-supported-rhel9 is the default image and if policy is set to 'always' then everytime it will pull the images from registry, we can set to never or missing in ansible-navigator.yaml file
 
 --> Additional uses:
 
