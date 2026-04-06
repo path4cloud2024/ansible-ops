@@ -142,9 +142,8 @@
 🔹 Lets reference these different directories and subfiles for inventory with ansible-navigator command:
     # ansible-navigator inventory -i <path> -m stdout --list (in json format)
 
+explore other inventory options:
 
-explore inventory options:
-    # 
     # ansible-navigator inventory -i <path> -m stdout --graph (will show all hosts and groups)
     # ansible-navigator inventory -i <path> -m stdout --graph  <group_name> (will show the hosts from specified group)
     # ansible-navigator inventory -i <path> -m stdout --host <hostname> (will list the all variables specified for this host)

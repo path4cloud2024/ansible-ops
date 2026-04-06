@@ -11,3 +11,6 @@ ansible-navigator:
   playbook-artifact:
     enable: false
   mode: stdout
+  logging:
+    level: info
+    file: /dev/null

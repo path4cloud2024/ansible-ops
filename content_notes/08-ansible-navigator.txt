@@ -21,7 +21,7 @@
     (will fetch the image if not available locally from configured repository, if already there then it can launch the Eexcution environemnt- EE and we can explore with menu options, displayed at the bottom of the screen)
 
 ######################################################################################
---> Setup the Ansible Navigator Environment:
+✅ Setup the Ansible Navigator Environment:
 # podman login registry.redhat.io
 Username: path4cloud
 Password:
@@ -36,19 +36,19 @@ Login Succeeded!
     - We have ansible-navigator.yaml file, similar as ansible.cfg where we have paramater defined for ansible-navigator
     - For this version, ee-supported-rhel9 is the default image and if policy is set to 'always' then everytime it will pull the images from registry, we can set to never or missing in ansible-navigator.yaml file
 
---> Additional uses:
+✅ Additional uses:
 
 # ansible-navigator run < > (to run the ansible playbook)
 # ansible-navigator inventory < > (to manipulate or explore the inventory)
 # ansible-navigator config < > (to list the current configured navigator settings)
 
---> Managing Ansible Navigator Configuration file
+✅ Managing Ansible Navigator Configuration file
     -Settings for ansible-navigator can be provided on the command line, set using an environment variable or specified in a settings file.
     - The settings file name and path can be specified with an environment variable or it can be placed in one of two default directories.
     - Priority order:
-        1) ANSIBLE_NAVIGATOR_CONFIG (settings file path environment variable if set)
-        2) ./ansible-navigator.yaml (project directory) (NOTE: no dot in the file name)
-        3) ~/.ansible-navigator.yaml (home directory) (NOTE: note the dot in the file name)
+        🥇 ANSIBLE_NAVIGATOR_CONFIG (settings file path environment variable if set)
+        🥈 ./ansible-navigator.yaml (project directory) (NOTE: no dot in the file name)
+        🥉 ~/.ansible-navigator.yaml (home directory) (NOTE: note the dot in the file name)
 
     Note:
         - The settings file can be in JSON or YAML format.
@@ -60,7 +60,7 @@ Login Succeeded!
     ** We can create a sample file with example settings:
         # ansible-navigator settings --sample > myconfig.yaml
         
---> Common Settings
+✅ Common Settings
 
 ---
 ansible-navigator:
@@ -81,7 +81,7 @@ ansible-navigator:
     (Look this URL for more paramater for ansible-navigator config file)
 
 
---> explore inventory options:
+✅ explore inventory options:
     # ansible-navigator inventory -i <path> -m stdout --list (in json format)
     # ansible-navigator inventory -i <path> -m stdout --graph (will show all hosts and groups)
     # ansible-navigator inventory -i <path> -m stdout --graph  <group_name> (will show the hosts from specified group)
@@ -89,7 +89,7 @@ ansible-navigator:
     # ansible-navigator inventory -i <path> -m stdout --graph ungrouped (will show the hosts that are not part of any group)
     # ansible-navigator inventory -i <path>  (will show the output interactively)
 
---> more
+✅ more
     # ansible-navigator config dump -m stdout (dump the current configuration)
     # ansible-navigator doc -m stdout -latest (will list the collections)
     # ansible-navigator collection list (will display the collection inside the execution-environment)
@@ -103,16 +103,65 @@ ansible-navigator:
     ** If default values are not  provided by a configuration file, they must be specified on the command line.
     ** By default, ansible-navigator runs in interactive mode, use -m stdout to get the task display on console or set this paramater (mode: stdout) in configuration file.
 
---> Providing required collections for ansible-navigator
+✅ If we want to include the ansible.cfg to be read by ansible-navigator.yaml then we need to create the ansible.cf file in same project directory where we are running ansible-navigator command since it mounts the same project directory inside the container and if ansible.cfg is outside of project directory then container can't see it.
+
+        - we can dump the config and check the HOST_LIST paramater in interactive mode or grep the config_file.
+        - When an ansible.cfg file outside of project directory, it mounts the default from /etc/ansible/ansible.cfg from container
+            # ansible-navigator config dump | grep CONFIG_FILE
+                CONFIG_FILE() = None
+            # ansible-navigator config dump -m stdout (will show all paramater, search for HOST_LIST with : in command mode)
+            DEFAULT_HOST_LIST(default) = ['/etc/ansible/hosts']
+
+        - When an ansible.cfg inside of project directory, it mounts the same inside the container
+            # ansible-navigator config dump | grep CONFIG_FILE
+                CONFIG_FILE() = /home/ansibleuser/ansible-ops/ansible.cfg
+            # ansible-navigator config dump -m stdout (will show all paramater, search for HOST_LIST with : in command mode)
+            DEFAULT_HOST_LIST(/home/ansibleuser/ansible-ops/ansible.cfg) = ['/home/ansibleuser/inventory']
+
+        - Even we can put it in ansible-navigator.yaml as config paramater but still, it will not mount that:
+            # cat ansible-navigator.yaml
+            ---
+            ansible-navigator:
+            ansible:
+                config:
+                path: /home/ansibleuser/.ansible.cfg
+            
+            # [ansibleuser@rhel-9 ansible-ops]$ ansible-navigator config dump | grep CONFIG_FILE
+
+        - We can check inside the container, when ansible.cfg is out of project directory:
+            # ansible-navigator exec -- ansible --version
+                ansible [core 2.16.18]
+                config file = None
+        - We can check inside the container, when ansible.cfg is inside of project directory:
+            # ansible-navigator exec -- ansible --version
+                ansible [core 2.16.18]
+                config file = /home/ansibleuser/ansible-ops/ansible.cfg
+
+        ** and here is another proof, that it reads the ansible.cfg inside of project directory while checking inventory:
+            # ansible-navigator inventory -m stdout --graph all
+            @all:
+            |--@ungrouped:
+            |  |--localhost
+            |--@target_node:
+            |  |--docker
+            |  |--centos9
+
+            # pwd
+            /home/ansibleuser/ansible-ops
+            #  cat ansible.cfg
+            [defaults]
+            inventory = /home/ansibleuser/inventory
+
+✅ Providing required collections for ansible-navigator
     - By default, few collections are already included in ansible-navigator
     - To use collections that are not part of by default:
         # ansible-navigator --eei (this flag can refer to another execute environemnt that is available)
         # ansible-galaxy collection install (to install the collection into project directory)
         # ansible-builder (This utility helps to create custom execute environemnt)
 
---> LAB to work on missing collection in execution environemnt:
+✅✅ LAB to work on missing collection in execution environemnt:
         - We have 'install_httpd.yml' file in our github repo, let try to run that with minimal image
-        # ansible-navigator run install_httpd.yml --eei registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest
+        # ansible-navigator run install_httpd.yaml --eei registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest
 
         It will fail with "ERROR! couldn't resolve module/action 'community.general.seport'"
         Exact Error output:
