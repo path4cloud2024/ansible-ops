@@ -51,6 +51,7 @@ User to connect with managed hosts:
     # ansible docker -m ping
     # anisble localhost -m ping
     # ansible docker -a "mkdir /root/testdir" (here docker is my managed host and already mentioned in inventory file, you can change it to your name)
+    # ansible all -m command -a whoami (if it shows, root, then change "become = true" to "become = false" in .ansible.cfg file under user home directory and set it true explicity in playbook whereever its required.)
 
 
 #######################################################################################################

@@ -33,6 +33,13 @@ Ansible ships with hundreds of built-in modules.
 🔍 How to check documentation for a module
     # ansible-doc <module_name>
 
+🔹 Few more options to ansible documentation:
+    # ansible-doc (provides more information about modules, arguments, as well as some examples)
+    # ansible-doc -s <module_name> (to see arguments that can beused with a module)
+    # ansible-doc -t (to get documentation for different ansible features, liek keywords, plugins, filters and more)
+
+    # ansible-navigator doc <module_name>
+
 📥 How to Get More Modules (Collections)
     Modern Ansible uses Collections to organize modules.
     # ansible-galaxy collection install community.general

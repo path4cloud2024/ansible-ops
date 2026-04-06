@@ -1,0 +1,23 @@
+🔹 What are Ansible Ad-hoc Commands?
+    Ad-hoc commands in Ansible are one-line commands used to perform quick tasks without writing a playbook.
+    Basic Syntax:
+        ansible <hosts> -m <module> -a "<arguments>"
+
+    Example:
+        # ansible all -m ping
+        # ansible all -m dnf -a "name=httpd state=present" -b
+        # ansible all -m command -a "uptime" (command module is a defulat module, it can work wihout -m)
+        # ansible all -m copy -a "src=file.txt dest=/tmp/file.txt"
+        # ansible all -m user -a "name=devops state=present" -b
+
+    Useful Flags with ansible adhoc command:
+    | Option | Meaning             |
+    | ------ | ------------------- |
+    | `-i`   | Inventory file      |
+    | `-u`   | Remote user         |
+    | `-b`   | Become (sudo)       |
+    | `-k`   | Ask SSH password    |
+    | `-o`   | One-line output     |
+    | `-f`   | Forks (parallelism) |
+
+
