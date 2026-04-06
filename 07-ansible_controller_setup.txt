@@ -19,7 +19,9 @@ Managed Node:
     - Ubuntu [24.04]
         - ssh service is running ($ systemctl status ssh) (and if any firewall then should be allowed)
         - python is installed ($ sudo dpkg --get-selections python3)
-    - CentOS []
+    - CentOS [centos9]
+        - ssh service is running ($ systemctl status sshd) (and if any firewall then should be allowed)
+        - python is installed ($ sudo rpm -qa python3)
 
 
 User to connect with managed hosts:
@@ -48,8 +50,7 @@ User to connect with managed hosts:
     Note: If you have another user which is already present in target node and have sudo privilege then at line num 20, replace the "path4cloud" user to an user which is already present user.
     # ansible-playbook ansible-ops/ansibleuser.yaml -k -K (will ask the password twice)
 6) check the new user is working with privilege access or try to ping as adhoc command:
-    # ansible docker -m ping
-    # anisble localhost -m ping
+    # ansible all -m ping
     # ansible docker -a "mkdir /root/testdir" (here docker is my managed host and already mentioned in inventory file, you can change it to your name)
     # ansible all -m command -a whoami (if it shows, root, then change "become = true" to "become = false" in .ansible.cfg file under user home directory and set it true explicity in playbook whereever its required.)
 
