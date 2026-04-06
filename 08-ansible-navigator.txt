@@ -10,6 +10,7 @@
 
 ✅ Login to registry as:
     # podman login -u <usernam> -p <password> <registry_url>
+    use - registry.redhat.io
 
 
 ✅ To install the ansible navigator
@@ -88,7 +89,7 @@ ansible-navigator:
     # ansible-navigator inventory -i <path> -m stdout --graph  <group_name> (will show the hosts from specified group)
     # ansible-navigator inventory -i <path> -m stdout --host <hostname> (will list the all variables specified for this host)
     # ansible-navigator inventory -i <path> -m stdout --graph ungrouped (will show the hosts that are not part of any group)
-    # ansible-navigator inventory -i <path>  (will show the output interactvel)
+    # ansible-navigator inventory -i <path>  (will show the output interactively)
 
 --> more
     # ansible-navigator config dump -m stdout (dump the current configuration)
@@ -101,7 +102,7 @@ ansible-navigator:
     or
     :replay (in interactive mode)
 
-    ** If default values are not provided by a configuration file, they must be specified on the command line.
+    ** If default values are not  provided by a configuration file, they must be specified on the command line.
     ** By default, ansible-navigator runs in interactive mode, use -m stdout to get the task display on console or set this paramater (mode: stdout) in configuration file.
 
 --> Providing required collections for ansible-navigator

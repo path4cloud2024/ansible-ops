@@ -80,11 +80,27 @@
 🔹 For Static Inventory, Ansible supports the tree structure as well, where we can create a parent directory and then sub directories according to environemnt or your use case and we can organize these.
         # mkdir -pv master_inventiry/{dev,qa,prod}
         # tree -F master_inventiry
+        master_inventory
+        ├── dev
+        ├── prod
+        └── qa
+
     - Now, we can create a subfile under these directories, might be according to platforms:
-        # touch master_inventiry/dev/{linux,windows,network}
-        # touch master_inventiry/qa/{web,db}
-        # touch master_inventiry/prod/{hosts}
-        # tree -F master_inventiry/
+        # touch master_inventory/dev/{linux,windows,network}
+        # touch master_inventory/qa/{web,db}
+        # touch master_inventory/prod/{hosts}
+        # tree -F master_inventory/
+        master_inventory/
+        ├── dev/
+        │   ├── linux
+        │   ├── network
+        │   └── windows
+        ├── prod/
+        │   └── {hosts}
+        └── qa/
+            ├── db
+            └── web
+
 
 🔹 Further, we can organize the hosts inside of inventory file into groups, and nested group (parent & child):
     Example:
@@ -100,8 +116,37 @@
         [dbservers]
         db1.path4cloud.com
         db2.path4cloud.com
+        oracledb[1:10].path4cloud.com
 
         [webapp:children]                <---------- This is nested group, we can put the nested_group name, follows by : and the keyword "children"
         webservers                       <---------- this is a real group, defined above with members of servers, here it is a child group
         dbservers                        <---------- this is a real group, defined above with members of servers, here it is a child group
 
+        [onprem]
+        server1.path4cloud.com           <---------- One server, can be part of many groups, here server1 is also part of linux group
+
+        [cloud]
+        servera.path4cloud.com           <---------- One server, can be part of many groups, here server1 is also part of linux group
+
+        [all:children]                   <---------- And, one group can be part of multiple nested group as well
+        linux
+        webservers
+        dbservers
+        onprem
+        cloud
+
+        [network]                        <----------- We can reference the IP ranges as well
+        192.168.[0.255].1                <----------- Here, it will include from 192.168.0.1 to 192.168.255.1 (all IPs)
+
+
+🔹 Lets reference these different directories and subfiles for inventory with ansible-navigator command:
+    # ansible-navigator inventory -i <path> -m stdout --list (in json format)
+
+
+explore inventory options:
+    # 
+    # ansible-navigator inventory -i <path> -m stdout --graph (will show all hosts and groups)
+    # ansible-navigator inventory -i <path> -m stdout --graph  <group_name> (will show the hosts from specified group)
+    # ansible-navigator inventory -i <path> -m stdout --host <hostname> (will list the all variables specified for this host)
+    # ansible-navigator inventory -i <path> -m stdout --graph ungrouped (will show the hosts that are not part of any group)
+    # ansible-navigator inventory -i <path>  (will show the output interactively)
