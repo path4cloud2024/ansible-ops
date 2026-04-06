@@ -99,7 +99,7 @@
         │   └── {hosts}
         └── qa/
             ├── db
-            └── web
+            └── web 
 
 
 🔹 Further, we can organize the hosts inside of inventory file into groups, and nested group (parent & child):

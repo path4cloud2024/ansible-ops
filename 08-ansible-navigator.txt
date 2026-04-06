@@ -47,8 +47,8 @@ Login Succeeded!
     - The settings file name and path can be specified with an environment variable or it can be placed in one of two default directories.
     - Priority order:
         1) ANSIBLE_NAVIGATOR_CONFIG (settings file path environment variable if set)
-        2) ./ansible-navigator.<ext> (project directory) (NOTE: no dot in the file name)
-        3) ~/.ansible-navigator.<ext> (home directory) (NOTE: note the dot in the file name)
+        2) ./ansible-navigator.yaml (project directory) (NOTE: no dot in the file name)
+        3) ~/.ansible-navigator.yaml (home directory) (NOTE: note the dot in the file name)
 
     Note:
         - The settings file can be in JSON or YAML format.
