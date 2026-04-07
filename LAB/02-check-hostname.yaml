@@ -1,0 +1,16 @@
+---
+- name: Connectivity test with debug
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Ping hosts
+      ansible.builtin.ping:
+
+    - name: Show hostname
+      ansible.builtin.command: hostname
+      register: host_output
+
+    - name: Print hostname
+      ansible.builtin.debug:
+        var: host_output.stdout
