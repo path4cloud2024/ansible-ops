@@ -10,15 +10,16 @@
 
     - name: start the service
       ansible.builtin.service:
-        name: httpd
+        name: apache2
         state: started
         enabled: true
 
     - name: modifying the webpage
       ansible.builtin.copy:
-      content: |
-        "Hello Learners!! Welcome to Path4cloud
-         I am web server deployed via Ansible"
+        content: |
+          "Hello Learners!! Welcome to Path4cloud
+           I am web server deployed via Ansible"
+        dest: /var/www/html/index.html
 
 - name: Testing the web server
   hosts: localhost
