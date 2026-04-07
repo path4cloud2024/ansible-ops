@@ -27,7 +27,7 @@
   tasks:
     - name: testing....
       ansible.builtin.uri:
-        url: http://192.168.139.9
+        url: http://docker
         return_content: true
       register: webpage
       
