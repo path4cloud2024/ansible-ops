@@ -29,3 +29,8 @@
       ansible.builtin.uri:
         url: http://192.168.139.9
         return_content: true
+      register: webpage
+      
+    - name: Display page content
+      ansible.builtin.debug:
+        var: webpage.content
