@@ -1,20 +1,20 @@
 ---
 # Here, I have intentionally made a typo in first task in msg spelling to mesg
-# first check the syntax which proves that it is a valid yaml so no syntax error but we have module specific error
+# first check the syntax which proves that it is a valid yaml so no syntax error but we have module specific error when we run playbook
 - name: Understanding the Playbook Error
   hosts: docker
   gather_facts: false
-  # ignore_erros: ture (this can be defined in play header as well, which will be valid for all tasks under this play)
+  # ignore_errors: true # (this can be defined in play header as well, which will be valid for all tasks under this play)
   tasks:
     - name: First task
       ansible.builtin.debug:
-        msg: "I am first task in this play"
+        mesg: "I am first task in this play"
 
     - name: checking service is running or not
       ansible.builtin.service:
         name: http
         status: started
-        #ignore_erros: true (first run with comment and then uncomment it and then run)
+      #ignore_errors: true # (first run with comment and then uncomment it and then run)
 
     - name: last task
       ansible.builtin.debug:
