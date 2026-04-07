@@ -33,13 +33,11 @@
       ansible.builtin.debug:
         var: host_output.stdout
 
-✅ 
+✅ we can check the syntax of yaml file before we run or push it to central repo:
+  # ansible-navigator run <playbook.yaml> --syntax-check
+  (will return the full path of playbook if everything looks green, else show the error)
 
+✅ Follow official docuementation:
+  https://docs.ansible.com/projects/ansible-core/devel/index.html
 
-✅
-✅
-✅
-✅
-✅
-✅
-✅
+✅ We can yamlint.com as well verify the valid yaml.
