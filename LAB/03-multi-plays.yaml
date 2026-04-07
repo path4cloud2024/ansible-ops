@@ -16,7 +16,7 @@
 
     - name: modifying the webpage
       ansible.builtin.copy:
-      content: >
+      content: |
         "Hello Learners!! Welcome to Path4cloud
          I am web server deployed via Ansible"
 
